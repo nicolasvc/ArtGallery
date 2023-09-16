@@ -13,12 +13,12 @@ class ServiceArtistApi{
         this.articApi = new ArticApi('https://api.artic.edu/api/v1/');
       } 
 
-      async getDetailArt(): Promise<DetailApiResponse> {
+      async getDetailArt(idDetail:String): Promise<DetailApiResponse> {
         try {
-          const data: DetailApiResponse = await this.articApi.getWithParams<DetailApiResponse>('artworks/9505', this.params);
+          const data: DetailApiResponse = await this.articApi.getWithParams<DetailApiResponse>(`artworks/${idDetail}`, this.params);
           return data; // Retornar el objeto Artwork
         } catch (error) {
-          throw error; // Propagar el error
+          throw error; // Propagar el error7
         }
       }
 
@@ -31,8 +31,6 @@ class ServiceArtistApi{
         }
       }
 }
-
-
 
 
 export default ServiceArtistApi

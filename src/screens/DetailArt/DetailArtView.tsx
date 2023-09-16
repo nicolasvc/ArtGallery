@@ -1,29 +1,58 @@
-import * as React from 'react';
-import { Button, View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationProp,ParamListBase } from '@react-navigation/native';
+import { Image, View, Text } from 'react-native';
+import React, { useState,useEffect } from 'react';
+import { ArtModel } from '../../services/models/ApiModel';
+import ServiceArtistApi from '../../services/ServiceArtGallery';
+import styles from './styles';
+
+class MyState {
+  constructor(public loading: boolean = false, public data: ArtModel | null = null) {}
+}
+
+const initialState = new MyState();
 
 
+function HelloDetail({ route }) {
+  const { itemId } = route.params;
+  const [state, setState] = useState(initialState);
+  const service = new ServiceArtistApi();
 
-function HelloDetail({ route,navigation }) {
-  /* 2. Get the param */
-  const { itemId, otherParam } = route.params;
+  const updateLoading = (loading: boolean) => {
+    setState((prevState) => ({ ...prevState, loading }));
+  };
+
+  const updateData = (data: ArtModel | null) => {
+    setState((prevState) => ({ ...prevState, data }));
+  };
+
+  const getDetailArt = async () => {
+    updateLoading(true);
+    try {
+      const artwork  = await service.getDetailArt(itemId);
+      updateData(artwork.data);
+    } catch (error) {
+     //TODO HANDLE ERROR
+    } finally {
+      updateLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDetailArt();
+  }, []);
+
+
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Details Screen</Text>
-      <Text>itemId: {JSON.stringify(itemId)}</Text>
-      <Text>otherParam: {JSON.stringify(otherParam)}</Text>
-          <Button
-            title="Go to Favorites"
-            onPress={() => navigation.navigate('Favorite')}
-          />
-          <Button title="Update UI" onPress={() => navigation.setParams({itemId: Math.floor(Math.random() * 100)}) } />
-          <Button title="Go back" onPress={() => navigation.goBack()} />
-          <Button
-        title="Go back to first screen in stack"
-        onPress={() => navigation.popToTop()}
-      />
+      <View >
+           <Image
+              source={{ uri: `https://www.artic.edu/iiif/2/${state.data?.image_id}/full/843,/0/default.jpg`}}
+              resizeMode="cover"
+              style={styles.image}
+           />
+          <Text>ID: {state.data?.id}</Text>
+          <Text>Título: {state.data?.title}</Text>
+          <Text>Referencia: {state.data?.main_reference_number}</Text>
+          <Text>Artista: {state.data?.artist_display}</Text>
+          <Text>Imagen ID: {state.data?.image_id}</Text>
         </View>
       );
 }

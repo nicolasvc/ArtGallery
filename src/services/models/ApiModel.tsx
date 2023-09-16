@@ -11,7 +11,7 @@ interface ApiResponse {
   }
 
 
-interface ArtModel {
+export interface ArtModel {
     id: number;
     title: string;
     main_reference_number: string;
