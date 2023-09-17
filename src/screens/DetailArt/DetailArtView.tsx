@@ -54,7 +54,6 @@ function HelloDetail({ route }) {
       <View >
         <ImageWithFallback
           style={styles.image}
-          resizeMode="cover"
           url={getUrl(state.data?.image_id)}
           defaultSource={require('../../assets/images/empty_image.jpg')}
         />
