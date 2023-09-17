@@ -5,11 +5,11 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      margin: 16,
+      margin: 8,
     },
     image: {
-        width: '100%', // Ajusta el ancho según tus necesidades
-        height: 200, // Ajusta el alto según tus necesidades
+        width: '100%', 
+        height: 200, 
     },
     item:{
       marginTop:16
