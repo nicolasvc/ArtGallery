@@ -16,7 +16,7 @@ export interface ArtModel {
     title: string;
     main_reference_number: string;
     artist_display: string;
-    image_id: string;
+    image_id: string|null;
 }
 
 export interface DetailApiResponse extends ApiResponse {

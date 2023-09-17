@@ -1,11 +1,13 @@
-import { Button, View, Text,ActivityIndicator,FlatList,TouchableOpacity,Image} from 'react-native';
-import ServiceArtistApi from '../../services/ServiceArtGallery';
-import React, { useState,useEffect } from 'react';
-import { ArtModel } from '../../services/models/ApiModel';
+import { View, Text, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
+import ServiceArtistApi from '../../services/server/ServiceArtGallery';
+import React, { useState, useEffect } from 'react';
+import { ArtModel } from '../../services/server/models/ApiModel';
 import styles from './styles';
+import ImageWithFallback from '../../components/atoms/ImageFallBack';
+import { getUrl } from '../../utils/Utils';
 
 class MyState {
-  constructor(public loading: boolean = false, public data: ArtModel[] | null = null) {}
+  constructor(public loading: boolean = false, public data: ArtModel[] | null = null) { }
 }
 
 const initialState = new MyState();
@@ -25,16 +27,16 @@ function HelloWorld({ navigation }) {
   const handleTestAxios = async () => {
     updateLoading(true);
     try {
-      const artwork  = await service.getListArts();
+      const artwork = await service.getListArts();
       updateData(artwork.data);
     } catch (error) {
-     //TODO HANDLE ERROR
+      //TODO HANDLE ERROR
     } finally {
       updateLoading(false);
     }
   };
 
-  const handleTextPress = (item:ArtModel) => {
+  const handleTextPress = (item: ArtModel) => {
     navigation.navigate('Details', {
       itemId: item.id,
     })
@@ -46,19 +48,20 @@ function HelloWorld({ navigation }) {
 
 
   return (
-    <View style = {styles.container}>
+    <View style={styles.container}>
       <FlatList
-         data={state.data}
-         renderItem={({ item }) => (
-              <TouchableOpacity style={styles.item} onPress={() => handleTextPress(item)}>
-                  <Image
-                    source={{ uri: `https://www.artic.edu/iiif/2/${item.image_id}/full/843,/0/default.jpg`}}
-                    style={styles.image}
-                    resizeMode="cover"
-                  />
-                  <Text>{item.title}</Text>
-              </TouchableOpacity>
-               )}
+        data={state.data}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={styles.item} onPress={() => handleTextPress(item)}>
+            <ImageWithFallback
+              style={styles.image}
+              resizeMode="cover"
+              url={getUrl(item?.image_id)}
+              defaultSource={require('../../assets/images/empty_image.jpg')}
+            />
+            <Text>{item.title}</Text>
+          </TouchableOpacity>
+        )}
       />
       {state.loading && <ActivityIndicator size="large" color="#00ff00" />}
     </View>

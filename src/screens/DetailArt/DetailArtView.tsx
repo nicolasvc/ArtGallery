@@ -1,8 +1,12 @@
-import { Image, View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import React, { useState,useEffect } from 'react';
-import { ArtModel } from '../../services/models/ApiModel';
-import ServiceArtistApi from '../../services/ServiceArtGallery';
+import { ArtModel } from '../../services/server/models/ApiModel';
+import ServiceArtistApi from '../../services/server/ServiceArtGallery';
 import styles from './styles';
+import ImageWithFallback from '../../components/atoms/ImageFallBack';
+import { getUrl } from '../../utils/Utils';
+import { SaveArt } from '../../services/database/DbProvider';
+
 
 class MyState {
   constructor(public loading: boolean = false, public data: ArtModel | null = null) {}
@@ -24,6 +28,11 @@ function HelloDetail({ route }) {
     setState((prevState) => ({ ...prevState, data }));
   };
 
+  const saveFavorite = () => {
+    if(state.data !== null)
+      SaveArt(state.data)
+  }
+
   const getDetailArt = async () => {
     updateLoading(true);
     try {
@@ -43,16 +52,18 @@ function HelloDetail({ route }) {
 
     return (
       <View >
-           <Image
-              source={{ uri: `https://www.artic.edu/iiif/2/${state.data?.image_id}/full/843,/0/default.jpg`}}
-              resizeMode="cover"
-              style={styles.image}
-           />
+        <ImageWithFallback
+          style={styles.image}
+          resizeMode="cover"
+          url={getUrl(state.data?.image_id)}
+          defaultSource={require('../../assets/images/empty_image.jpg')}
+        />
           <Text>ID: {state.data?.id}</Text>
           <Text>Título: {state.data?.title}</Text>
           <Text>Referencia: {state.data?.main_reference_number}</Text>
           <Text>Artista: {state.data?.artist_display}</Text>
           <Text>Imagen ID: {state.data?.image_id}</Text>
+          <Button title='ClickMe' onPress={saveFavorite}/>
         </View>
       );
 }

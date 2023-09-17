@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { logger } from "react-native-logs";
 
 const log = logger.createLogger({
