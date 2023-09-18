@@ -11,6 +11,8 @@ export const CreateTableQuery = `
 
 export const QueryAddArt = `INSERT INTO ${NameTableArt} (id, title, artist_display, image_id) VALUES (?, ?, ?, ?)`
 
+export const DeleteArt = `DELETE FROM ${NameTableArt} WHERE id = ?`
+
 
 export enum QueryAll {
   ART = `SELECT * FROM ${NameTableArt}`

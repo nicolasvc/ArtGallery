@@ -1,6 +1,6 @@
-import HelloDetail from "../screens/DetailArt/DetailArtView";
-import HelloFavorite from "../screens/FavoriteArt/FavoriteArtView";
-import HelloWorld from "../screens/ListArt/ViewArtList";
+import DetailArtView from "../screens/DetailArt/DetailArtView";
+import FavoriteListScreen from "../screens/FavoriteArt/FavoriteArtView";
+import ListArtScreen from "../screens/ListArt/ViewArtList";
 import { TouchableOpacity } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -39,8 +39,8 @@ function HomeTabs() {
         tabBarInactiveTintColor: 'gray',
         headerShown: false
       })}>
-      <Tab.Screen name='Overview' component={HelloWorld} />
-      <Tab.Screen name='Favorite' component={HelloFavorite} />
+      <Tab.Screen name='Overview' component={ListArtScreen} />
+      <Tab.Screen name='Favorite' component={FavoriteListScreen} />
     </Tab.Navigator>
   )
 }
@@ -64,7 +64,7 @@ export default function TabsApp() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen name="Home" component={HomeTabs} />
-        <Stack.Screen name="Details" component={HelloDetail} options={{
+        <Stack.Screen name="Details" component={DetailArtView} options={{
           headerRight: () => (
             <TouchableOpacity onPress={toggleAnimation}>
               <LottieView

@@ -13,7 +13,7 @@ class MyState {
 
 const initialState = new MyState();
 
-function HelloFavorite({ navigation }) {
+function FavoriteListScreen({ navigation }) {
 
   const [state, setState] = useState(initialState);
   const updateData = (data: ArtModel[] | null) => {
@@ -42,13 +42,14 @@ function HelloFavorite({ navigation }) {
         data={state.data}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.item} onPress={() => handleTextPress(item)}>
-            <ImageWithFallback
-              style={styles.image}
-              resizeMode="cover"
-              url={getUrl(item?.image_id)}
-              defaultSource={require('../../assets/images/empty_image.jpg')}
-            />
-            <Text>{item.title}</Text>
+              <ImageWithFallback
+                style={styles.image}
+                resizeMode="cover"
+                url={getUrl(item?.image_id)}
+                defaultSource={require('../../assets/images/empty_image.jpg')}
+                onPress={() => {handleTextPress(item)}}
+              />
+              <Text style={styles.itemCard}>{item.title}</Text>
           </TouchableOpacity>
         )}
       />
@@ -57,4 +58,4 @@ function HelloFavorite({ navigation }) {
   );
 }
 
-export default HelloFavorite
+export default FavoriteListScreen

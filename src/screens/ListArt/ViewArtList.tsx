@@ -12,7 +12,7 @@ class MyState {
 
 const initialState = new MyState();
 
-function HelloWorld({ navigation }) {
+function ListArtScreen({ navigation }) {
   const service = new ServiceArtistApi();
   const [state, setState] = useState(initialState);
 
@@ -58,6 +58,9 @@ function HelloWorld({ navigation }) {
               resizeMode="cover"
               url={getUrl(item?.image_id)}
               defaultSource={require('../../assets/images/empty_image.jpg')}
+              onPress={() =>
+                handleTextPress(item)
+              }
             />
             <Text>{item.title}</Text>
           </TouchableOpacity>
@@ -68,4 +71,4 @@ function HelloWorld({ navigation }) {
   );
 }
 
-export default HelloWorld;
+export default ListArtScreen;

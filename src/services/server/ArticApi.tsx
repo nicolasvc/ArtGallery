@@ -40,7 +40,7 @@ class ArticApi {
           const response: AxiosResponse = await this.api.get(endpoint, {
             params: params,
           });
-          return response.data as T; // Realiza el parseo al tipo genérico T
+          return response.data as T;
         } catch (error) {
           throw error;
         }

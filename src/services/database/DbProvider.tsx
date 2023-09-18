@@ -1,7 +1,7 @@
-import { enablePromise, openDatabase, SQLiteDatabase } from 'react-native-sqlite-storage'
+import { openDatabase, SQLiteDatabase } from 'react-native-sqlite-storage'
 import { ArtModel } from '../server/models/ApiModel';
 import { LogCustome } from '../../utils/Utils';
-import { CreateTableQuery, QueryAddArt, QueryFactory, QueryAll } from './utils/QueryDb';
+import { CreateTableQuery, QueryAddArt, QueryFactory, QueryAll,DeleteArt } from './utils/QueryDb';
 
 
 const getDBConnection = async () => {
@@ -71,3 +71,23 @@ export const GetFavoriteArt = async (): Promise<ArtModel[]> => {
     });
   });
 }
+
+export const DeleteFavoriteArt = async (id:number): Promise<Boolean> =>{
+  const db = await getDBConnection()
+  return new Promise<Boolean>((resolve,reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        DeleteArt,
+        [id],
+        (tx, results) => {
+          resolve(results.rowsAffected > 0)
+        },
+        (error) => {
+          reject(error)
+        }
+      );
+    });
+  })
+
+} 
+

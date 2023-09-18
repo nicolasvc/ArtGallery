@@ -1,17 +1,26 @@
 import React from 'react';
-import { Image, ImageURISource ,ImageProps} from 'react-native';
+import { Image, ImageURISource ,ImageProps,TouchableOpacity,GestureResponderEvent} from 'react-native';
 
 
 interface ImageWithFallbackProps extends Omit<ImageProps, 'source'> {
     url: string | null;
     defaultSource: ImageURISource;
+    onPress?: (event: GestureResponderEvent) => void; 
   }
   
-  const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({ url, defaultSource, ...props }) => {
+  const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({ url, defaultSource,onPress, ...props }) => {
+    const renderImage = (source: any) => {
+      return (
+        <TouchableOpacity onPress={onPress}>
+          <Image source={source} {...props} />
+        </TouchableOpacity>
+      );
+    };
+  
     if (url) {
-      return <Image source={{ uri: url }} {...props} />;
+      return renderImage({ uri: url });
     } else {
-      return <Image source={defaultSource} {...props} />;
+      return renderImage(defaultSource);
     }
   };
 

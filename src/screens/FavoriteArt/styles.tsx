@@ -11,6 +11,9 @@ const styles = StyleSheet.create({
     },
     item:{
       marginTop:16
+    },
+    itemCard:{
+      marginTop:8
     }
   });
 
