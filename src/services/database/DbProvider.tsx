@@ -20,12 +20,12 @@ const createTableArt = async (db: SQLiteDatabase) => {
 };
 
 export const SaveArt = async (artModel: ArtModel) => {
-  const { id, title, artist_display, image_id } = artModel;
+  const { id, title, artist_display, image_id,description } = artModel;
   const dbOpen = await getDBConnection()
   dbOpen.transaction((tx) => {
     tx.executeSql(
       QueryAddArt,
-      [id, title, artist_display, image_id],
+      [id, title, artist_display, image_id,description],
       (tx, results) => {
         if (results.rowsAffected > 0) {
           LogCustome.info("Nuevo dato insertado correctamente")
@@ -58,6 +58,8 @@ export const GetFavoriteArt = async (): Promise<ArtModel[]> => {
               main_reference_number: "empty",
               artist_display: fila.artist_display,
               image_id: fila.image_id,
+              description : fila.description,
+              favorite:true
             };
             datos.push(artModel);
           }

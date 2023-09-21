@@ -9,25 +9,26 @@ class ServiceArtistApi{
     private params:Record<string, any>
    
     constructor() {
-        this.params = {fields: 'id,title,artist_display,image_id,main_reference_number',};
+        this.params = {fields: 'id,title,artist_display,image_id,main_reference_number,description'};
         this.articApi = new ArticApi('https://api.artic.edu/api/v1/');
       } 
 
       async getDetailArt(idDetail:String): Promise<DetailApiResponse> {
         try {
           const data: DetailApiResponse = await this.articApi.getWithParams<DetailApiResponse>(`artworks/${idDetail}`, this.params);
-          return data; // Retornar el objeto Artwork
+          return data; 
         } catch (error) {
-          throw error; // Propagar el error7
+          throw error; 
         }
       }
 
-      async getListArts(): Promise<ListApiResponse> {
+      async getListArts(page: string): Promise<ListApiResponse> {
         try {
-          const data: ListApiResponse = await this.articApi.getWithParams<ListApiResponse>('artworks', this.params);
-          return data; // Retornar el objeto Artwork
+          const paramsWithPage = { ...this.params, page:page };
+          const data: ListApiResponse = await this.articApi.getWithParams<ListApiResponse>('artworks', paramsWithPage);
+          return data; 
         } catch (error) {
-          throw error; // Propagar el error
+          throw error; 
         }
       }
 }

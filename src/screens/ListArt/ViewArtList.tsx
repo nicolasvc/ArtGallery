@@ -7,7 +7,9 @@ import ImageWithFallback from '../../components/atoms/ImageFallBack';
 import { getUrl } from '../../utils/Utils';
 
 class MyState {
-  constructor(public loading: boolean = false, public data: ArtModel[] | null = null) { }
+  constructor(
+    public loading: boolean = false, 
+    public data: ArtModel[] | null = null) { }
 }
 
 const initialState = new MyState();
@@ -20,6 +22,8 @@ function ListArtScreen({ navigation }) {
     setState((prevState) => ({ ...prevState, loading }));
   };
 
+  const [page, setPage] = useState(1);
+
   const updateData = (data: ArtModel[] | null) => {
     setState((prevState) => ({ ...prevState, data }));
   };
@@ -27,7 +31,7 @@ function ListArtScreen({ navigation }) {
   const handleTestAxios = async () => {
     updateLoading(true);
     try {
-      const artwork = await service.getListArts();
+      const artwork = await service.getListArts(page.toString());
       updateData(artwork.data);
     } catch (error) {
       //TODO HANDLE ERROR
@@ -42,14 +46,24 @@ function ListArtScreen({ navigation }) {
     })
   };
 
+  const getMoreData = async () => {
+    updateLoading(true);
+    let newPager = page + 1;
+    const newData = await service.getListArts(newPager.toString());
+    if (newData.data && newData.data.length > 0) {
+      updateData([...(state.data || []), ...newData.data]);
+      setPage(newPager);
+    }
+    updateLoading(false);
+  };
   useEffect(() => {
     handleTestAxios();
   }, []);
 
-
   return (
     <View style={styles.container}>
       <FlatList
+        onEndReached={()=>{getMoreData()}}
         data={state.data}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.item} onPress={() => handleTextPress(item)}>

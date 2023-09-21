@@ -6,16 +6,11 @@ import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import LottieView from 'lottie-react-native';
-import { useRef, useState } from "react";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-
-
-
 
 
 function HomeTabs() {
@@ -31,7 +26,7 @@ function HomeTabs() {
               ? 'home'
               : 'home';
           } else if (route.name === 'Favorite') {
-            iconName = focused ? 'home' : 'home';
+            iconName = focused ? 'favorite' : 'favorite-border';
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
@@ -46,37 +41,13 @@ function HomeTabs() {
 }
 
 export default function TabsApp() {
-
-  const buttonRef = useRef<LottieView>(null)
-
-  const [isFavorite, setIsFavorite] = useState(false);
-  const toggleAnimation = () => {
-    if (isFavorite) {
-      buttonRef.current?.play(0,0)
-    } else {
-      buttonRef.current?.play()
-    }
-    console.log(isFavorite)
-    setIsFavorite(!isFavorite)
-  }; 
+  
 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen name="Home" component={HomeTabs} />
-        <Stack.Screen name="Details" component={DetailArtView} options={{
-          headerRight: () => (
-            <TouchableOpacity onPress={toggleAnimation}>
-              <LottieView
-                ref={buttonRef}
-                autoPlay={false}
-                loop={false}
-                style={{ width: 40, height: 40 }}
-                source={require('../assets/animation_favorite.json')}
-              />
-            </TouchableOpacity>
-          ),
-        }} />
+        <Stack.Screen name="Details" component={DetailArtView}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

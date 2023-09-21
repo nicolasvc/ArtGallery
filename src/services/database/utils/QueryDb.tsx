@@ -6,10 +6,11 @@ export const CreateTableQuery = `
             id INTEGER PRIMARY KEY NOT NULL,
             title TEXT,
             artist_display TEXT,
-            image_id TEXT
+            image_id TEXT,
+            description TEXT
         );`;
 
-export const QueryAddArt = `INSERT INTO ${NameTableArt} (id, title, artist_display, image_id) VALUES (?, ?, ?, ?)`
+export const QueryAddArt = `INSERT INTO ${NameTableArt} (id, title, artist_display, image_id,description) VALUES (?, ?, ?, ?, ?)`
 
 export const DeleteArt = `DELETE FROM ${NameTableArt} WHERE id = ?`
 
