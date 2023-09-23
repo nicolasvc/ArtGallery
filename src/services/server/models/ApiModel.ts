@@ -8,7 +8,7 @@ interface ApiResponse {
     license_text: string;
     version: string;
   };
-  pagination: Pagination
+  pagination: Pagination;
 }
 
 interface Pagination {
@@ -28,7 +28,8 @@ export interface ArtModel {
   artist_display: string;
   image_id: string | null;
   description: string | null;
-  favorite: boolean
+  favorite: boolean;
+  term_titles:string[] | null;
 }
 
 export interface DetailApiResponse extends ApiResponse {

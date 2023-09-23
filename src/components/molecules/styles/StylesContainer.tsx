@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     height: '40%'
   },
   container: {
-    flexDirection: 'row', // Para colocar los elementos en una fila
+    flexDirection: 'row', 
     alignItems: 'center',
     height: '40%'
   },
@@ -24,7 +24,7 @@ export const stylesText= StyleSheet.create({
   title: {
     fontSize: 20,
     textAlign: "center",
-    fontFamily: "LibreBaskerville-Regular",
+    fontFamily: "Mooli-Regular",
     color:'white',
     marginBottom:8
   },
@@ -35,20 +35,20 @@ export const TagsStyles = {
   body: {
       whiteSpace: 'normal',
       color: 'white',
-      fontFamily: 'LibreBaskerville-Regular',
+      fontFamily: 'Mooli-Regular',
       fontSize: 16
       
   },
   p: {
-      fontFamily: 'LibreBaskerville-Regular',
+      fontFamily: 'Mooli-Regular',
       fontSize: 16,
   },
   a: {
       color: 'green',
-      fontFamily: 'LibreBaskerville-Regular',
+      fontFamily: 'Mooli-Regular',
   }
 };
-export const systemFonts = [...defaultSystemFonts, 'LibreBaskerville-Regular',];
+export const systemFonts = [...defaultSystemFonts, 'Mooli-Regular',];
 
 
 export default styles

@@ -1,6 +1,7 @@
 import React from 'react';
 import LottieView from "lottie-react-native";
-import { View, Text, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text} from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 interface AnimatedWrapperProps {
     children: React.ReactNode;
@@ -8,11 +9,9 @@ interface AnimatedWrapperProps {
 }
 
 const AnimateWrapper: React.FC<AnimatedWrapperProps> = ({ children, showAnimation }) => {
-
-    console.log("wrapper",showAnimation)
-
+    const { t } = useTranslation();
     if (!showAnimation) return <>{children}</>
-
+    //TODO Mover styles 
     return (
         <View
             style={{
@@ -27,7 +26,7 @@ const AnimateWrapper: React.FC<AnimatedWrapperProps> = ({ children, showAnimatio
                 autoPlay
                 loop
             />
-            <Text style={{textAlign:"center", fontFamily: "LibreBaskerville-Regular"}}>You dont have any favorite art, go to OverView and discovery your favorite art!</Text>
+            <Text style={{textAlign:"center", fontFamily: "Mooli-Regular"}}>{t('common:emptyfavorite')}</Text>
         </View>
     )
 }

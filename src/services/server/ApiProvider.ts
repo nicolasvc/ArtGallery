@@ -1,19 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { logger } from "react-native-logs";
+import { LogCustome } from '../../utils/Utils';
+import Snackbar from 'react-native-snackbar';
 
-const log = logger.createLogger({
-    transportOptions: {
-      colors: {
-        info: "blueBright",
-        warn: "yellowBright",
-        error: "redBright",
-        debug: "white",
-      },
-    },
-  });
-
-
-class ArticApi {
+class ApiProvider {
     private api: AxiosInstance;
   
     constructor(baseUrl: string) {
@@ -23,28 +12,31 @@ class ArticApi {
       });
       this.api.interceptors.response.use(
         (response) => {
-          log.info('Response service', response.data);
-          log.info('Status Service', response.status);
+          LogCustome.info('Response service', response.data);
+          LogCustome.info('Status Service', response.status);
           return response;
         },
         (error) => {
-          log.error('Error Service', error);
+          LogCustome.error('Error Service', error);
           return Promise.reject(error);
         }
       );
-      
     }
 
-    async getWithParams<T>(endpoint: string, params?: Record<string, any>): Promise<T> {
+    async getWithParams<T>(endpoint: string, params?: Record<string, any>): Promise<T | null>  {
         try {
           const response: AxiosResponse = await this.api.get(endpoint, {
             params: params,
           });
           return response.data as T;
         } catch (error) {
-          throw error;
+          Snackbar.show({
+            text: "Something went wrong ",
+            duration: Snackbar.LENGTH_SHORT
+          });
+          return Promise.reject(null)
         }
       }
   }
   
-  export default ArticApi;
+  export default ApiProvider;

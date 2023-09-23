@@ -5,18 +5,23 @@ import { ArtModel } from '../../services/server/models/ApiModel';
 import styles from './styles';
 import ImageWithFallback from '../../components/atoms/ImageFallBack';
 import { getUrl } from '../../utils/Utils';
+import useExample from '../../hooks/useExample';
 
-class MyState {
-  constructor(
-    public loading: boolean = false, 
-    public data: ArtModel[] | null = null) { }
+
+const initialState={
+  loading:false,
+  data:[]
 }
 
-const initialState = new MyState();
+interface ViewState{
+  loading: boolean
+  data: ArtModel[]
+}
 
 function ListArtScreen({ navigation }) {
   const service = new ServiceArtistApi();
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState<ViewState>(initialState);
+  const example = useExample()  
 
   const updateLoading = (loading: boolean) => {
     setState((prevState) => ({ ...prevState, loading }));
@@ -24,10 +29,11 @@ function ListArtScreen({ navigation }) {
 
   const [page, setPage] = useState(1);
 
-  const updateData = (data: ArtModel[] | null) => {
+  const updateData = (data: ArtModel[]) => {
     setState((prevState) => ({ ...prevState, data }));
   };
 
+  //TODO change name Const
   const handleTestAxios = async () => {
     updateLoading(true);
     try {
@@ -39,10 +45,11 @@ function ListArtScreen({ navigation }) {
       updateLoading(false);
     }
   };
-
+  //TODO validate correct handle
   const handleTextPress = (item: ArtModel) => {
+    //example.setLoading(true)
     navigation.navigate('Details', {
-      itemId: item.id,
+    itemId: item.id,
     })
   };
 
@@ -59,6 +66,8 @@ function ListArtScreen({ navigation }) {
   useEffect(() => {
     handleTestAxios();
   }, []);
+
+
 
   return (
     <View style={styles.container}>

@@ -7,12 +7,15 @@ export const CreateTableQuery = `
             title TEXT,
             artist_display TEXT,
             image_id TEXT,
-            description TEXT
+            description TEXT,
+            term_title TEXT
         );`;
 
-export const QueryAddArt = `INSERT INTO ${NameTableArt} (id, title, artist_display, image_id,description) VALUES (?, ?, ?, ?, ?)`
+export const QueryAddArt = `INSERT INTO ${NameTableArt} (id, title, artist_display, image_id,description,term_title) VALUES (?, ?, ?, ?, ?, ?)`
 
 export const DeleteArt = `DELETE FROM ${NameTableArt} WHERE id = ?`
+
+export const SelectArt = `SELECT * FROM ${NameTableArt} WHERE id = ?`
 
 
 export enum QueryAll {
