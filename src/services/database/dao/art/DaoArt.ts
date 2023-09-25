@@ -1,10 +1,10 @@
-import { LogCustome } from "../../utils/Utils";
-import { ArtModel } from "../server/models/ApiModel";
-import { getDBConnection } from "./DbProvider";
-import { DeleteArt, QueryAddArt, QueryAll, QueryFactory, SelectArt } from "./utils/QueryDb";
+import { ArtModel } from "../../../server/models/ApiModel";
+import { getDBConnection } from "../../DbProvider";
+import { DeleteArt, QueryAddArt, QueryAll, QueryFactory, SelectArt } from "../../utils/QueryDb";
+import IDaoArt from "./IDaoArt";
 
 
-class DaoArt {
+class DaoArt implements IDaoArt{
 
     async getListFavoriteArt(): Promise<ArtModel[]> {
         const db = await getDBConnection()
@@ -25,7 +25,9 @@ class DaoArt {
                                 image_id: fila.image_id,
                                 description: fila.description,
                                 favorite: true,
-                                term_titles: fila.term_title.split(', ')
+                                term_titles: fila.term_title.split(', '),
+                                thumbnail:fila.thumbnail,
+                                provenance_text:fila.provenance_text
                             };
                             datos.push(artModel);
                         }
@@ -39,7 +41,6 @@ class DaoArt {
             });
         });
     }
-
 
     async getDetailArt(idArt: number): Promise<ArtModel | null> {
         const db = await getDBConnection()
@@ -59,7 +60,9 @@ class DaoArt {
                                 image_id: fila.image_id,
                                 description: fila.description,
                                 favorite: true,
-                                term_titles: fila.term_title.split(', ')
+                                term_titles: fila.term_title.split(', '),
+                                thumbnail:fila.thumbnail,
+                                provenance_text:fila.provenance_text
                             };
                             resolve(artModel);
                         } else {
@@ -75,29 +78,27 @@ class DaoArt {
         });
     }
 
-    async saveArt(artModel: ArtModel) {
-        const { id, title, artist_display, image_id, description, term_titles } = artModel;
+    async saveArt(artModel: ArtModel):Promise<Boolean> {
+        const { id, title, artist_display, image_id, description, term_titles,thumbnail,provenance_text } = artModel;
         const joinTerm = term_titles?.join(', ');
         const dbOpen = await getDBConnection()
-        dbOpen.transaction((tx) => {
-            tx.executeSql(
-                QueryAddArt,
-                [id, title, artist_display, image_id, description, joinTerm],
-                (tx, results) => {
-                    if (results.rowsAffected > 0) {
-                        LogCustome.info("Nuevo dato insertado correctamente")
-                    } else {
-                        LogCustome.error("Error al insertar el nuevo dato")
+        return new Promise<Boolean>((resolve,reject) => {   
+            dbOpen.transaction((tx) => {
+                tx.executeSql(
+                    QueryAddArt,
+                    [id, title, artist_display, image_id, description, joinTerm,thumbnail?.alt_text,provenance_text],
+                    (tx, results) => {
+                        resolve(results.rowsAffected > 0)
+                    },
+                    (error) => {
+                        reject(error)
                     }
-                },
-                (error) => {
-                    LogCustome.error("Error al insertar el nuevo dato", error)
-                }
-            );
+                );
+            })
         })
     }
 
-    async deleteArt(idArt: number) {
+    async deleteArt(idArt: number):Promise<Boolean> {
         const db = await getDBConnection()
         return new Promise<Boolean>((resolve, reject) => {
             db.transaction((tx) => {

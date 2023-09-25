@@ -20,6 +20,13 @@ interface Pagination {
   next_url: string | null; 
 }
 
+interface Thumbnail {
+  lqip: string;
+  width: number;
+  height: number;
+  alt_text: string;
+}
+
 
 export interface ArtModel {
   id: number;
@@ -30,6 +37,8 @@ export interface ArtModel {
   description: string | null;
   favorite: boolean;
   term_titles:string[] | null;
+  thumbnail:Thumbnail | null;
+  provenance_text:string | null
 }
 
 export interface DetailApiResponse extends ApiResponse {

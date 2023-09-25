@@ -21,7 +21,7 @@ const AnimateWrapper: React.FC<AnimatedWrapperProps> = ({ children, showAnimatio
                 marginBottom: '30%'
             }}>
             <LottieView
-                source={require('../../assets/animation_lmsfwgd1.json')}
+                source={require('../../assets/lottie_anim/animation_empty_state.json')}
                 style={{ width: '80%', aspectRatio: 1 }}
                 autoPlay
                 loop

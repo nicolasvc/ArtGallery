@@ -14,6 +14,8 @@ interface CustomComponentProps {
 export interface HandlerEvents {
     handlePrev?: (event: GestureResponderEvent) => void;
     handleNext?: (event: GestureResponderEvent) => void;
+    showNext: boolean;
+    showPrev: boolean;
 }
 
 
@@ -24,15 +26,17 @@ const ViewContainerViewPager: React.FC<CustomComponentProps> = ({ customComponen
             style={styles.container}
         >
             <View style={styles.innerContainer}>
-                <TouchableOpacity style={styles.button} onPress={events?.handlePrev}>
-                    <Icon name="arrow-left" size={24} color="#FFFFFF" />
-                </TouchableOpacity>
-                <View style={styles.customComponentContainer}>
+                {events?.showPrev &&
+                    <TouchableOpacity style={styles.button} onPress={events?.handlePrev}>
+                        <Icon name="arrow-left" size={24} color="#FFFFFF" />
+                    </TouchableOpacity>}
+                <View style={[styles.customComponentContainer, events?.showPrev === false ? { marginLeft: 24 } : {}]}>
                     {customComponent}
                 </View>
+                {events?.showNext && 
                 <TouchableOpacity style={styles.button} onPress={events?.handleNext}>
                     <Icon name="arrow-right" size={24} color="#FFFFFF" />
-                </TouchableOpacity>
+                </TouchableOpacity>}
             </View>
         </LinearGradient>
     )
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
     container: {
         maxHeight: '40%',
         justifyContent: 'center',
-        borderRadius:16
+        borderRadius: 16
     },
     innerContainer: {
         flexDirection: 'row',

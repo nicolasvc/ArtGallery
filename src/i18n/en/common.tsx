@@ -5,5 +5,7 @@ export default {
     description:'Description',
     artist:'Artist',
     termtitle:'Term titles',
-    loading:'Loading...'
+    loading:'Loading...',
+    thumbnail:'Thumbnail',
+    provenance:'Provenance'
 };

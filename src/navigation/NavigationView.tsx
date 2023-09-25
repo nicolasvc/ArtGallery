@@ -18,6 +18,12 @@ function HomeNavigator() {
     <Tab.Navigator
       initialRouteName='Overview'
       screenOptions={({ route }) => ({
+        headerStyle:{
+          backgroundColor: '#53634e'
+        },
+        tabBarStyle:{
+          backgroundColor: '#53634e'
+        },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName = "home"
 
@@ -30,8 +36,8 @@ function HomeNavigator() {
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: '#bcebef',
+        tabBarInactiveTintColor: '#002202',
         headerShown: false
       })}>
       <Tab.Screen name='Overview' component={ListArtScreen} options={{ title: t('navigate:overview') }} />
@@ -46,7 +52,7 @@ export default function MainNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home' >
+      <Stack.Navigator initialRouteName='Home' screenOptions={{ headerStyle:{ backgroundColor: '#53634e'},headerTintColor:'#bcebef'}} >
         <Stack.Screen name="Home" component={HomeNavigator}  />
         <Stack.Screen name="Details" component={DetailArtView} options={{ title: t('navigate:detail') }} />
       </Stack.Navigator>

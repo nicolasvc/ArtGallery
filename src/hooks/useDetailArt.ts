@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import DaoArt from '../services/database/DaoArt';
+import DaoArt from '../services/database/dao/art/DaoArt';
 import ServiceArtistApi from '../services/server/ServiceArtGallery';
 import { ArtModel } from '../services/server/models/ApiModel';
 import { ItemDescription } from '../components/molecules/ViewDescription';
-import { INFO_ART, InfoArtFactory, getUrl, validateUrl } from '../utils/Utils';
+import { INFO_ART, InfoArtFactory, validateUrl } from '../utils/Utils';
 import Snackbar from 'react-native-snackbar';
 import PagerView from 'react-native-pager-view';
+import { providesLocalDataSourceArt, providesRemoteDataSource } from '../di/ModuleDI';
+import RepositoryArt from '../repository/RepositoryArt';
 
 
-
-const daoArt = new DaoArt()
-const service = new ServiceArtistApi();
+const repositoryArt = new RepositoryArt(providesRemoteDataSource(),providesLocalDataSourceArt())
 
 const useDetailArt = () => {
 
@@ -24,26 +24,23 @@ const useDetailArt = () => {
     const pagerRef = useRef<PagerView>(null);
 
 
-    useEffect(() => { addImage(),getDescriptionArt() }, [artDetail])
+    useEffect(() => { addImage(),getDescriptionArt(),validateFavDetail() }, [artDetail])
 
     async function getDetail(idArt: number) {
         setLoading(true)
-        let exist = await daoArt.getDetailArt(idArt)
-        if (exist === null) {
-            let detail = await service.getDetailArt(idArt.toString())
-            setDetail(detail.data)
-        } else {
-            setFavorite(exist.favorite)
-            setDetail(exist)
-        }
+        let artDetail = await repositoryArt.getDetailArt(idArt)
+        setDetail(artDetail)
         setLoading(false)
+    }
+
+    function validateFavDetail(){
+        setFavorite(artDetail?.favorite ?? false)
     }
 
     function addImage(){
         if (artDetail?.image_id !== undefined && images.length === 0) { 
             let urlImage =  validateUrl(artDetail?.image_id || null)
             setImages([{ url: urlImage }]);
-           
           }
     }
 
@@ -73,6 +70,13 @@ const useDetailArt = () => {
             const htmlList = `<ul>${value.join('')}</ul>`;
             items.push({ label: 'termtitle', value: htmlList, icon: "info-outline" });
         }
+        if (artModel.provenance_text !== null) {
+            items.push({ label: 'provenance', value: artModel.provenance_text, icon: "info-outline" });
+        }
+
+        if (artModel.thumbnail?.alt_text !== null) {
+            items.push({ label: 'thumbnail', value: artModel.thumbnail?.alt_text||"No data", icon: "info-outline" });
+        }
 
         return items;
     }
@@ -90,12 +94,12 @@ const useDetailArt = () => {
     const removeFavorite = () => {
         removeFavoriteArt()
         showSnackbarWithAction(INFO_ART.DELETE_FAVORITE, () => saveFavorite())
-
     }
 
-    const saveFavorite = () => {
+    const saveFavorite = async () => {
         if (artDetail !== null) {
-            daoArt.saveArt(artDetail)
+            const responseSave= await repositoryArt.saveArt(artDetail)
+            console.log("res",responseSave)
             setFavorite(true)
             showSnackbarWithAction(INFO_ART.ADD_FAVORITE, () => removeFavoriteArt())
         }
@@ -118,7 +122,7 @@ const useDetailArt = () => {
     const removeFavoriteArt = async () => {
         if (artDetail !== null) {
             setFavorite(false)
-            daoArt.deleteArt(artDetail.id)
+            repositoryArt.deleteArt(artDetail.id)
         }
     }
 

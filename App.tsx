@@ -10,7 +10,6 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import MainNavigator from './src/navigation/NavigationView';
 import DbProvider from './src/services/database/DbProvider';
-import Config from 'react-native-config';
 
 const SaveValue = async () => {
   try {
@@ -46,7 +45,6 @@ const dbProvider = new DbProvider()
 
 
 function App(): JSX.Element {
-  console.log("config",Config.REACT_APP_API_URL)
   SaveValue()
   getValue() 
   dbProvider.createTables()

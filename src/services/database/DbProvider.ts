@@ -1,7 +1,6 @@
 import { openDatabase, SQLiteDatabase } from 'react-native-sqlite-storage'
-import { ArtModel } from '../server/models/ApiModel';
 import { LogCustome } from '../../utils/Utils';
-import { CreateTableQuery, QueryAddArt, QueryFactory, QueryAll,DeleteArt } from './utils/QueryDb';
+import { CreateTableQuery} from './utils/QueryDb';
 
 
 export const getDBConnection = async () => {

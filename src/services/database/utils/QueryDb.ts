@@ -8,10 +8,12 @@ export const CreateTableQuery = `
             artist_display TEXT,
             image_id TEXT,
             description TEXT,
-            term_title TEXT
+            term_title TEXT,
+            thumbnail TEXT,
+            provenance_text TEXT
         );`;
 
-export const QueryAddArt = `INSERT INTO ${NameTableArt} (id, title, artist_display, image_id,description,term_title) VALUES (?, ?, ?, ?, ?, ?)`
+export const QueryAddArt = `INSERT INTO ${NameTableArt} (id, title, artist_display, image_id,description,term_title,thumbnail,provenance_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
 
 export const DeleteArt = `DELETE FROM ${NameTableArt} WHERE id = ?`
 

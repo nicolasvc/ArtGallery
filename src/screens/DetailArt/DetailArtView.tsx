@@ -55,6 +55,8 @@ function DetailArtView({ route }) {
                   handleNext: (event: GestureResponderEvent) => {
                     useDetail.handleNext()
                   },
+                  showNext: index !== useDetail.itemDescription.length - 1,
+                  showPrev: index  != 0
                 }} />
               </View>
             ))}

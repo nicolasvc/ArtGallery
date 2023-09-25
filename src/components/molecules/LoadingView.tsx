@@ -24,7 +24,7 @@ const LoadingView: React.FC<LoadingProps> = ({ showLoading }) => {
     return (
         <View style={overlayStyle}>
             <LottieView
-                source={require('../../assets/animation_loading.json')}
+                source={require('../../assets/lottie_anim/animation_loading.json')}
                 style={{ width: '80%', aspectRatio: 1 }}
                 autoPlay
                 loop
