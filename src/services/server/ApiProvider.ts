@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { LogCustome } from '../../utils/Utils';
 import Snackbar from 'react-native-snackbar';
-import ApiResult from './utils/Response';
+import ApiResult, { ApiError } from './utils/Response';
 
 class ApiProvider {
   private api: AxiosInstance;
@@ -30,12 +30,31 @@ class ApiProvider {
         params: params,
       });
       return new ApiResult({ data: response.data }, null);
-    } catch (error) {
+    } catch (error: any) {
       Snackbar.show({
-        text: "Something went wrong ",
+        text: "Something went wrong",
         duration: Snackbar.LENGTH_SHORT
       });
-      return Promise.reject(null)
+      let typeError: "network" | "general" | "http" = "network";
+      let messageError = 'msgerrorrequest';
+      if (error.response) {
+        LogCustome.error("Error HTTP:", error.response.status, error.response.data);
+        typeError = 'http';
+        messageError = "msgerrorhttp";
+      } else if (error.request) {
+        LogCustome.error("Error de red:", error.request);
+        typeError = 'network';
+        messageError = "msgerrorrequest";
+      } else {
+        LogCustome.error("Error general:", error);
+        typeError = 'general';
+        messageError = "msgerrorgeneral";
+      }
+      const networkError: ApiError = {
+        type: typeError,
+        message: messageError,
+      };
+      return Promise.resolve(new ApiResult(null, networkError))
     }
   }
 }

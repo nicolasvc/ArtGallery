@@ -10,13 +10,14 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: 200,
-        borderRadius: 8
+        borderTopRightRadius: 16,
+        borderTopLeftRadius:16
     },
     item: {
         marginVertical: 8,
         marginHorizontal: 16,
         backgroundColor: '#d6e8ce',
-        borderRadius: 8,
+        borderRadius: 16,
         paddingBottom: 8
     }
 });

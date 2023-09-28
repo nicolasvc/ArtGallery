@@ -9,7 +9,7 @@ import { GestureResponderEvent } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LoadingView from '../../components/molecules/LoadingView';
 import useDetailArt from '../../hooks/useDetailArt';
-
+import GenericErrorRequestView from '../../components/molecules/genericErrorRequest';
 
 
 function DetailArtView({ route }) {
@@ -18,13 +18,18 @@ function DetailArtView({ route }) {
 
 
   useEffect(() => {
-    useDetail.getDetail(itemId)
+    getDetailArt()
   }, []);
- 
+  
+
+  const getDetailArt = () =>{
+    useDetail.getDetail(itemId)
+  }
 
   return (
     <View style={styles.container}>
       {useDetail.loading && <LoadingView showLoading={true} />}
+      {useDetail.errorRequest && <GenericErrorRequestView handleClick={getDetailArt} textError={useDetail.errorMsg} />}
       <Modal
         animationType="slide"
         transparent={false}

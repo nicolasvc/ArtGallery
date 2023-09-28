@@ -13,7 +13,6 @@ export interface Props {
 
 
 const CardViewArt: React.FC<Props> = ({ item,handleClick }) => {
-
     return (
         <TouchableOpacity style={styles.item} onPress={(event) => handleClick?.(item,event)}>
             <ImageWithFallback

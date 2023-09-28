@@ -21,15 +21,23 @@ const useDetailArt = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
     const [images, setImages] = useState<{ url: string }[]>([]);
+    const [errorRequest,setError] = useState<boolean>(false);
+    const [errorMsg,setErrorMsg] = useState<string>("msgerrorgeneral");
     const pagerRef = useRef<PagerView>(null);
 
 
     useEffect(() => { addImage(),getDescriptionArt(),validateFavDetail() }, [artDetail])
 
     async function getDetail(idArt: number) {
+        setError(false)
         setLoading(true)
         let artDetail = await repositoryArt.getDetailArt(idArt)
-        setDetail(artDetail)
+        if(artDetail.isSuccess()){
+            setDetail(artDetail.getData())
+        }else{
+            setErrorMsg(artDetail.getErrorMessage()|| "msgerrorgeneral")
+            setError(true)
+        }
         setLoading(false)
     }
 
@@ -99,7 +107,6 @@ const useDetailArt = () => {
     const saveFavorite = async () => {
         if (artDetail !== null) {
             const responseSave= await repositoryArt.saveArt(artDetail)
-            console.log("res",responseSave)
             setFavorite(true)
             showSnackbarWithAction(INFO_ART.ADD_FAVORITE, () => removeFavoriteArt())
         }
@@ -149,6 +156,8 @@ const useDetailArt = () => {
         pagerRef,
         modalVisible,
         images,
+        errorRequest,
+        errorMsg,
         setModalVisible,
         handlePrev,
         handleNext,

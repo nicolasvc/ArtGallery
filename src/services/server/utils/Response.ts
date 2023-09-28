@@ -1,26 +1,29 @@
 interface ApiResponse<T> {
-    data: T;
+    data: T | null;
+}
+
+export interface ApiError {
+    type: 'network' | 'general' | 'http';
+    message: string;
 }
 
 class ApiResult<T> {
-    constructor(private response: ApiResponse<T> | null, private error: Error | null) { }
+    constructor(private response: ApiResponse<T> | null, private apiError: ApiError | null) { }
 
-    
     isSuccess(): boolean {
         return this.response !== null;
     }
 
     hasError(): boolean {
-        return this.error !== null;
+        return this.apiError !== null;
     }
 
-    
     getData(): T | null {
         return this.isSuccess() ? this.response!.data : null;
     }
 
-    getError(): Error | null {
-        return this.hasError() ? this.error : null;
+    getError(): ApiError | null {
+        return this.hasError() ? this.apiError : null;
     }
 }
 

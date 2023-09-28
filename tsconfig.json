@@ -1,3 +1,15 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json"
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "typeRoots": [
+      "./src/types"
+    ],
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true
+  },
+  "types": [
+    "jest",
+    "node"
+  ]
 }

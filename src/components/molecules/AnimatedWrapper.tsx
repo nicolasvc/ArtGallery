@@ -26,7 +26,7 @@ const AnimateWrapper: React.FC<AnimatedWrapperProps> = ({ children, showAnimatio
                 autoPlay
                 loop
             />
-            <Text style={{textAlign:"center", fontFamily: "Mooli-Regular"}}>{t('common:emptyfavorite')}</Text>
+            <Text style={{textAlign:"center", fontFamily: "IBMPlexSans-SemiBolItalic",marginHorizontal:16, fontSize:16}}>{t('common:emptyfavorite')}</Text>
         </View>
     )
 }

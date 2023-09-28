@@ -1,10 +1,10 @@
-import { ArtModel } from "../../../server/models/ApiModel";
+import { ArtModel, Thumbnail } from "../../../server/models/ApiModel";
 import { getDBConnection } from "../../DbProvider";
 import { DeleteArt, QueryAddArt, QueryAll, QueryFactory, SelectArt } from "../../utils/QueryDb";
 import IDaoArt from "./IDaoArt";
 
 
-class DaoArt implements IDaoArt{
+class DaoArt implements IDaoArt {
 
     async getListFavoriteArt(): Promise<ArtModel[]> {
         const db = await getDBConnection()
@@ -17,6 +17,12 @@ class DaoArt implements IDaoArt{
                         const datos: ArtModel[] = [];
                         for (let i = 0; i < len; i++) {
                             const fila = results.rows.item(i);
+                            const thumbnail: Thumbnail = {
+                                lqip: '',
+                                width: 0,
+                                height: 0,
+                                alt_text: fila.thumbnail
+                            };
                             const artModel: ArtModel = {
                                 id: fila.id,
                                 title: fila.title,
@@ -26,8 +32,8 @@ class DaoArt implements IDaoArt{
                                 description: fila.description,
                                 favorite: true,
                                 term_titles: fila.term_title.split(', '),
-                                thumbnail:fila.thumbnail,
-                                provenance_text:fila.provenance_text
+                                thumbnail: thumbnail,
+                                provenance_text: fila.provenance_text
                             };
                             datos.push(artModel);
                         }
@@ -52,6 +58,12 @@ class DaoArt implements IDaoArt{
                         const len = results.rows.length;
                         if (len > 0) {
                             const fila = results.rows.item(0);
+                            const thumbnail: Thumbnail = {
+                                lqip: '',
+                                width: 0,
+                                height: 0,
+                                alt_text: fila.thumbnail
+                            };
                             const artModel: ArtModel = {
                                 id: fila.id,
                                 title: fila.title,
@@ -61,8 +73,8 @@ class DaoArt implements IDaoArt{
                                 description: fila.description,
                                 favorite: true,
                                 term_titles: fila.term_title.split(', '),
-                                thumbnail:fila.thumbnail,
-                                provenance_text:fila.provenance_text
+                                thumbnail : thumbnail,
+                                provenance_text: fila.provenance_text
                             };
                             resolve(artModel);
                         } else {
@@ -78,15 +90,16 @@ class DaoArt implements IDaoArt{
         });
     }
 
-    async saveArt(artModel: ArtModel):Promise<Boolean> {
-        const { id, title, artist_display, image_id, description, term_titles,thumbnail,provenance_text } = artModel;
+    async saveArt(artModel: ArtModel): Promise<Boolean> {
+        const { id, title, artist_display, image_id, description, term_titles, thumbnail, provenance_text } = artModel;
         const joinTerm = term_titles?.join(', ');
+        const thumbnailData = thumbnail?.alt_text ?? ''
         const dbOpen = await getDBConnection()
-        return new Promise<Boolean>((resolve,reject) => {   
+        return new Promise<Boolean>((resolve, reject) => {
             dbOpen.transaction((tx) => {
                 tx.executeSql(
                     QueryAddArt,
-                    [id, title, artist_display, image_id, description, joinTerm,thumbnail?.alt_text,provenance_text],
+                    [id, title, artist_display, image_id, description, joinTerm, thumbnailData, provenance_text],
                     (tx, results) => {
                         resolve(results.rowsAffected > 0)
                     },
@@ -98,7 +111,7 @@ class DaoArt implements IDaoArt{
         })
     }
 
-    async deleteArt(idArt: number):Promise<Boolean> {
+    async deleteArt(idArt: number): Promise<Boolean> {
         const db = await getDBConnection()
         return new Promise<Boolean>((resolve, reject) => {
             db.transaction((tx) => {

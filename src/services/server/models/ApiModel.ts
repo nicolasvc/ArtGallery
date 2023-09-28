@@ -2,13 +2,13 @@ interface ApiResponse {
   config: {
     iiif_url: string;
     website_url: string;
-  };
+  } | null;
   info: {
     license_links: string[];
     license_text: string;
     version: string;
-  };
-  pagination: Pagination;
+  } | null;
+  pagination: Pagination | null;
 }
 
 interface Pagination {
@@ -20,10 +20,10 @@ interface Pagination {
   next_url: string | null; 
 }
 
-interface Thumbnail {
-  lqip: string;
-  width: number;
-  height: number;
+export interface Thumbnail {
+  lqip: string | null;
+  width: number | null;
+  height: number| null ;
   alt_text: string;
 }
 
@@ -46,5 +46,5 @@ export interface DetailApiResponse extends ApiResponse {
 }
 
 export interface ListApiResponse extends ApiResponse {
-  data: ArtModel[];
+  data: ArtModel[]|null;
 }

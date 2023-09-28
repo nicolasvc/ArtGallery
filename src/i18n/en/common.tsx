@@ -7,5 +7,9 @@ export default {
     termtitle:'Term titles',
     loading:'Loading...',
     thumbnail:'Thumbnail',
-    provenance:'Provenance'
+    provenance:'Provenance',
+    msgerrorhttp:'Something went wrong, try again.',
+    msgerrorrequest:'Check your internet connection and try again.',
+    msgerrorgeneral:'Something went wrong, check your internet connection and try again.',
+    tryagain:'Try again'
 };

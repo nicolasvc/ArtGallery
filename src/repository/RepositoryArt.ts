@@ -2,6 +2,7 @@ import ILocalDataSourceArt from "../datasource/local/art/DataSource/ILocalDataSo
 import IRemoteDataSource from "../datasource/remote/DataSource/IRemoteDataSource";
 import { ArtModel, ListApiResponse } from "../services/server/models/ApiModel";
 import ApiResult from "../services/server/utils/Response";
+import Result from "../utils/GenericResult";
 
 
 export default class RepositoryArt {
@@ -23,14 +24,15 @@ export default class RepositoryArt {
     }
 
 
-    async getDetailArt(idArt: number): Promise<ArtModel | null>{
+    async getDetailArt(idArt: number): Promise<Result<ArtModel>>{
         const localArt = await this.localDataSourceArt.getDetailArt(idArt)
         if(localArt){
-            return localArt
+            return new Result(localArt,null)
         }else{
             const detailApi = await this.remoteDataSource.getDetailArt(idArt);
-            const detailData = detailApi.getData()?.data;
-            return detailData || null;
+            const detailData = detailApi.getData()?.data || null;
+            const msgError = detailApi.getError()?.message || null;
+            return new Result(detailData,msgError)
         }
     }
 

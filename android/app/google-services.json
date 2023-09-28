@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "612372269574",
+    "project_id": "artgallery-1dca1",
+    "storage_bucket": "artgallery-1dca1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:612372269574:android:82a3b5d89715198b561187",
+        "android_client_info": {
+          "package_name": "com.artgallery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_JgrzaPDQuHL9sGMCZPz2HQI6BVd_Diw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,16 +1,25 @@
 import DetailArtView from "../screens/DetailArt/DetailArtView";
 import FavoriteListScreen from "../screens/FavoriteArt/FavoriteArtView";
 import ListArtScreen from "../screens/ListArt/ViewArtList";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,createNavigationContainerRef } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTranslation } from 'react-i18next';
 
-
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const navigationRef = createNavigationContainerRef<DetailtParam>()
 
+export type DetailtParam = {
+  Details: { itemId: number } | undefined;
+};
+
+export function navigateDetail(idDetail:number) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate('Details', {itemId: idDetail})
+  }
+}
 
 function HomeNavigator() {
   const { t } = useTranslation();
@@ -51,7 +60,7 @@ export default function MainNavigator() {
   const { t } = useTranslation();
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator initialRouteName='Home' screenOptions={{ headerStyle:{ backgroundColor: '#53634e'},headerTintColor:'#bcebef'}} >
         <Stack.Screen name="Home" component={HomeNavigator}  />
         <Stack.Screen name="Details" component={DetailArtView} options={{ title: t('navigate:detail') }} />

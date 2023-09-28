@@ -11,15 +11,18 @@ const useListArtRemote = () => {
     const [listArt, setListArt] = useState<ArtModel[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState<boolean>(false);
-
+    const [errorRequest,setError] = useState<boolean>(false);
+    const [errorMsg,setErrorMsg] = useState<string>("msgerrorgeneral");
 
     async function getListArt() {
+        setError(false)
         setLoading(true)
         let response = await repositoryList.getArtList(page.toString())
         if(response.isSuccess()){
             setListArt(response.getData()?.data || [])
         }else{
-
+            setErrorMsg(response.getError()?.message|| "msgerrorgeneral")
+            setError(true)
         }
         setLoading(false)
     }
@@ -35,15 +38,14 @@ const useListArtRemote = () => {
                 setPage(newPager);
             }
         }else{
-
+            setErrorMsg(response.getError()?.message|| "msgerrorgeneral")
+            setError(true)
         }
-
-        
         setLoading(false);
     }
 
 
-    return { listArt, loading, getListArt, getMoreData }
+    return { listArt, loading,errorRequest,errorMsg,setError, getListArt, getMoreData }
 }
 
 export default useListArtRemote

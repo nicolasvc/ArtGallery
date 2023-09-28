@@ -24,7 +24,7 @@ export const stylesText= StyleSheet.create({
   title: {
     fontSize: 20,
     textAlign: "center",
-    fontFamily: "Mooli-Regular",
+    fontFamily: "IBMPlexSans-SemiBolItalic",
     color:'white',
     marginBottom:8
   },
@@ -35,20 +35,20 @@ export const TagsStyles = {
   body: {
       whiteSpace: 'normal',
       color: 'white',
-      fontFamily: 'Mooli-Regular',
+      fontFamily: 'IBMPlexSans-SemiBolItalic',
       fontSize: 16
       
   },
   p: {
-      fontFamily: 'Mooli-Regular',
+      fontFamily: 'IBMPlexSans-SemiBolItalic',
       fontSize: 16,
   },
   a: {
       color: 'green',
-      fontFamily: 'Mooli-Regular',
+      fontFamily: 'IBMPlexSans-SemiBolItalic',
   }
 };
-export const systemFonts = [...defaultSystemFonts, 'Mooli-Regular',];
+export const systemFonts = [...defaultSystemFonts, 'IBMPlexSans-SemiBolItalic',];
 
 
 export default styles
