@@ -29,8 +29,9 @@ Explore the world of art with access to a wealth of information and resources fr
 - [React PagerView](https://github.com/callstack/react-native-pager-view) This component allows the user to swipe left and right through pages of data.
 - [React i18](https://www.npmjs.com/package/react-i18next)  Enables multilingual support in the application.
 - [React sqlite storage](https://www.npmjs.com/package/react-native-sqlite-storage) Allows save data in our local database .
-- [React sqlite storage](https://notifee.app)  Provides comprehensive notification event management and configuration.
-- [React sqlite storage](https://rnfirebase.io) Integrates Firebase services, including push notifications, seamlessly into your app.
+- [Notifee](https://notifee.app)  Provides comprehensive notification event management and configuration.
+- [Notifee](https://www.npmjs.com/package/react-native-encrypted-storage)  A library designed to provide secure and encrypted storage in mobile applications developed with React Native.
+- [React Native Firebase](https://rnfirebase.io) Integrates Firebase services, including push notifications, seamlessly into your app.
 
 
 # Package Structure
