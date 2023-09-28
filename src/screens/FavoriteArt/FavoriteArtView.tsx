@@ -12,8 +12,6 @@ import CardViewArt from "../../components/molecules/cardview";
 function FavoriteListScreen({ navigation }) {
 
   const useFavorite = useFavoriteArt()
-
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       useFavorite.getListFavorite();

@@ -11,5 +11,7 @@ export default {
     msgerrorhttp:'Something went wrong, try again.',
     msgerrorrequest:'Check your internet connection and try again.',
     msgerrorgeneral:'Something went wrong, check your internet connection and try again.',
-    tryagain:'Try again'
+    tryagain:'Try again',
+    msgpermissionnotificationdenied:'Without notification authorization, we cant send personalized notifications.',
+    allow:'Allow'
 };
